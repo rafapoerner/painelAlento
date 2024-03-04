@@ -1,0 +1,8 @@
+{
+  "routes": [
+    "/cadastro-usuario",
+    "/dashboard",
+    "/login",
+    "/panel-user"
+  ]
+}

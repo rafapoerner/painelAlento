@@ -1,0 +1,122 @@
+
+$small-screen: 768px;
+.top-menu {
+  background-color: #d8e5ee;
+  // padding: 16px;
+  // color: #fff;
+  width: 100%;
+  position: fixed; 
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 13px solid #0058a3;
+ 
+  z-index: 1000;
+
+  h3 {
+    // margin-right: 30px;
+    font-size: 20px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    li {
+      margin-right: 30px;
+
+      a {
+        color: #4d4b4b;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        opacity: .70;
+
+
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  
+  // Adiciona regra de mídia para telas menores
+  @media screen and (max-width: $small-screen) {
+    flex-direction: column;
+    padding: 10px;
+
+    .user-info {
+      order: 1;
+    }
+
+    ul {
+      order: 0;
+      margin-top: 10px;
+    }
+  }
+}
+
+.dashboard-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 120px;
+}
+
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dashboard-item {
+  width: 120px;
+  height: 120px; // Ajuste a altura para ser igual à largura para manter um círculo perfeito
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 50px;
+  
+  .img-icon {
+    width: 100%; // Reduzindo um pouco o tamanho do ícone em relação ao círculo
+    height: auto; // Permitindo que a altura seja ajustada automaticamente de acordo com a largura
+    border-radius: 80%; // Utilizando 50% para criar um círculo perfeito
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      outline: none;
+    }
+  }
+}
+
+
+.movie-title {
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  font-size: 24px;
+  color: #4d4b4b;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-8px);
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 18px;
+  }
+}

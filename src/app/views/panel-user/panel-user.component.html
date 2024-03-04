@@ -1,0 +1,74 @@
+<div class="top-menu">
+  <a href="/dashboard">
+    <img  src="/assets/logoGrupoAlento_.png" alt="image">
+  </a>
+  <ul>
+    <li *ngIf="isAdmin">
+      <a href="/cadastro-usuario">
+        <i class="fas fa-user-plus"></i> Novo Usuário
+      </a>
+    </li>
+    <li>
+      <a>
+        <h3>Olá {{ userName ? userName : 'Usuário' }}!</h3>
+      </a>
+    </li>
+    <li>
+      <a href="dashboard">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="user-list">
+  <div class="user-item" *ngFor="let usuario of usuarios">
+    <div class="user-details">
+      <img [src]="'https://painelalentoapi.azurewebsites.net/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+      <div class="user-info">
+        <h4> {{ usuario.userName }}</h4>
+        <h4> {{ usuario.profession }}</h4>
+      </div>
+    </div>
+    <div class="user-actions">
+      <button type="button" class="btn btn-primary" (click)="openModal(template)">
+        <i class="fas fa-edit"></i>
+      </button>
+
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Editar Usuário</h4>
+          <button type="button" class="btn-close close pull-right button-close" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="user-details">
+            <img [src]="'https://painelalentoapi.azurewebsites.net/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+            <div class="user-info">
+              <label for="userName"></label>
+              <input type="text" id="userName" [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}">
+              <label for="profession"></label>
+              <input type="text" id="profession" [(ngModel)]="usuario.profession" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+          <div class="upload-image">
+            <label for="inputFile" class="custom-file-upload">
+              Editar imagem
+            </label>
+            <input type="file" id="inputFile" (change)="onFileSelected($event)" accept="image/*">
+            <div *ngIf="shouldShowContainer()" class="image-container">
+              <p >{{ imageName }}</p>
+              <i class="fa-regular fa-trash-can" (click)="deleteImage()"></i>
+            </div>
+            <div class="edit-button">
+              <button (click)="updateUserProfile()">Salvar Alterações</button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <button (click)="deleteUser(usuario.id)"><i class="fas fa-trash-alt"></i></button>
+    </div>
+  </div>
+</div>
