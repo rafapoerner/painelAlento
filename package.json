@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch",
-    "build": "ng build",
+    "build": "npm install --omit=dev && npm run build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:AlentoApp": "node dist/alento-app/server/server.mjs"
