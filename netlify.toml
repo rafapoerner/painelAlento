@@ -1,0 +1,5 @@
+[[redirects]]
+  force = true
+  from = "/scripts/x.js"
+  status = 200
+  to = "https://painelalentoapi.up.railway.app/"
