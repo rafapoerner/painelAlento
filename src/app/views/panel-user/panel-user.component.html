@@ -24,7 +24,7 @@
 <div class="user-list">
   <div class="user-item" *ngFor="let usuario of usuarios">
     <div class="user-details">
-      <img [src]="'https://painelalentoapi.azurewebsites.net/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+      <img [src]="'https://localhost:44316/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
       <div class="user-info">
         <h4> {{ usuario.userName }}</h4>
         <h4> {{ usuario.profession }}</h4>
@@ -44,7 +44,7 @@
         </div>
         <div class="modal-body">
           <div class="user-details">
-            <img [src]="'https://painelalentoapi.azurewebsites.net/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+            <img [src]="'https://localhost:44316/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
             <div class="user-info">
               <label for="userName"></label>
               <input type="text" id="userName" [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}">

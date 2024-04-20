@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment.prod';
 })
 export class DeleteUserService {
 
-  private apiUrl = `${environment.apiUrl}/api/identity/`  
+  private apiUrl = `${environment.apiUrl}api/identity/`  
   
   constructor(private http: HttpClient) {}
 
@@ -18,6 +18,6 @@ export class DeleteUserService {
       'X-Skip-Cert-Validation': 'true'
     });
 
-    return this.http.delete<any>(`${this.apiUrl}/delete-user/${id}`, { headers });
+    return this.http.delete<any>(`${this.apiUrl}delete-user/${id}`, { headers });
   }
 }
