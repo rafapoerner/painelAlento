@@ -11,6 +11,7 @@ $small-screen: 768px;
   justify-content: space-between;
   align-items: center;
   border-top: 13px solid #0058a3;
+  padding-top: 10px;
  
   z-index: 1000;
 
@@ -32,10 +33,14 @@ $small-screen: 768px;
         color: #4d4b4b;
         text-decoration: none;
         display: flex;
-        align-items: center;
+        flex-direction: column; // Alterado para organizar os itens em coluna
+        align-items: center; // Centraliza os itens horizontalmente
         opacity: .70;
+        text-align: center; // Garante que o texto esteja centralizado
 
-
+        i {
+          margin-bottom: 3px; // Espaçamento entre o ícone e o texto
+        }
 
         &:hover {
           transform: scale(1.05);
@@ -57,9 +62,17 @@ $small-screen: 768px;
     ul {
       order: 0;
       margin-top: 10px;
+
+      li {
+        a {
+          flex-direction: row; // Retorna ao layout de linha em telas menores
+          align-items: center; // Mantém itens alinhados ao centro horizontalmente
+        }
+      }
     }
   }
 }
+
 
 .dashboard-container {
   display: flex;

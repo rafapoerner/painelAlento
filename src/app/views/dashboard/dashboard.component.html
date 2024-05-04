@@ -9,12 +9,12 @@
     <ul>
       <li *ngIf="isAdmin">
         <a href="/cadastro-usuario">
-          <i class="fas fa-user-plus"></i> Novo Usuário
+          <i class="fas fa-user-plus"></i><span>Novo Usuário</span>
         </a>
       </li>
       <li *ngIf="isAdmin">
         <a href="/panel-user">
-          <i class="fa-solid fa-people-group"></i> Painel de usuários
+          <i class="fa-solid fa-people-group"></i><span>Painel de usuários</span> 
         </a>
       </li>
       <li>
@@ -29,21 +29,21 @@
     <div class="dashboard">
       <div>
         <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiMGFhODEyOGMtZWZhYy00M2FlLWFkM2ItNjgxY2FiNjdjMDk3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon "src="/assets/campaign.png" alt="image">
+          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiZDE4ODI3OTctNWViYy00Nzc1LTk2NmYtMWYzMTY4M2QyOWNlIiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
+          <img class="img-icon "src="/assets/newStore.png" alt="image">
         </div>
-        <span class="movie-title">Aquaman 2</span>
+        <span class="movie-title">Acompanhamento<br> Lojas Novas</span>
       </div>
       <div>
         <div class="dashboard-item" (click)="redirectToPowerBi('https://x.gd/pjMDm')">
-          <img class="img-icon" src="/assets/money.png" alt="image">
+          <img class="img-icon" src="/assets/resumoFinancas.png" alt="image">
         </div>
-        <span class="movie-title">Financeiro TM</span>
+        <span class="movie-title">Resumo<br>Financas</span>
       </div>
       <div>
         <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiNGY5Mjg0ZDktNTAzNi00YzI3LTgxNDEtMTcxOWIxNGVmMTIxIiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/delivery-man.png" alt="image">
+          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiOGQxMDA1NjktZWYwYy00MjAxLTg5ODEtYzYxYjMzYTNkYmI3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
+          <img class="img-icon" src="/assets/ifood.png" alt="image">
         </div>
         <span class="movie-title">IFOOD</span>
       </div>
