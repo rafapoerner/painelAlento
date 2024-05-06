@@ -154,7 +154,7 @@ export class PanelUserComponent {
 
   openEditModal(usuario: any): void {
     this.selectedUser = { ...usuario };
-    this.modalRef = this.modalService.show(this.template, { class: 'modal-lg' }); // Adicionei a opção de classe modal-lg, ajuste conforme necessário
+    this.modalRef = this.modalService.show(this.template, { class: 'modal-lg' });
   }
 
 

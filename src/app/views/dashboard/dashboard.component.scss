@@ -1,73 +1,102 @@
-
 $small-screen: 768px;
-.top-menu {
+
+.top-menu,
+h3 {
   background-color: #d8e5ee;
-  // padding: 16px;
-  // color: #fff;
   width: 100%;
-  position: fixed; 
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 13px solid #0058a3;
-  padding-top: 10px;
- 
+  padding-top: 8px;
   z-index: 1000;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  color: #4d4b4b; // Define a cor geral do texto
 
-  h3 {
-    // margin-right: 30px;
-    font-size: 20px;
+  .logo {
+    margin-left: 10px;
   }
 
   ul {
     list-style-type: none;
     padding: 0;
+    margin-right: 30px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     li {
-      margin-right: 30px;
+      margin-right: 20px; // Distância entre cada item
 
+      div,
       a {
-        color: #4d4b4b;
-        text-decoration: none;
         display: flex;
-        flex-direction: column; // Alterado para organizar os itens em coluna
-        align-items: center; // Centraliza os itens horizontalmente
-        opacity: .70;
-        text-align: center; // Garante que o texto esteja centralizado
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        color: #4d4b4b; // Cor do texto para itens que não são links
+        text-decoration: none; // Remove o sublinhado dos links
+
+        img {
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          object-fit: cover;
+
+        }
 
         i {
-          margin-bottom: 3px; // Espaçamento entre o ícone e o texto
+          margin: 9px;
         }
+
 
         &:hover {
           transform: scale(1.05);
+          text-decoration: none; // Assegura que não apareça sublinhado ao passar o mouse
         }
       }
     }
   }
+}
 
-  
-  // Adiciona regra de mídia para telas menores
-  @media screen and (max-width: $small-screen) {
+@media screen and (max-width: $small-screen) {
+  .top-menu {
     flex-direction: column;
     padding: 10px;
 
-    .user-info {
-      order: 1;
-    }
-
     ul {
-      order: 0;
+      width: 100%; // Ajuste para que a UL ocupe a largura total
+      justify-content: center; // Centraliza os itens no modo responsivo
       margin-top: 10px;
 
-      li {
-        a {
-          flex-direction: row; // Retorna ao layout de linha em telas menores
-          align-items: center; // Mantém itens alinhados ao centro horizontalmente
-        }
+      li a {
+        flex-direction: row;
+        align-items: center;
+        color: #4d4b4b; // Mantém a cor do texto nos links uniforme
+        text-decoration: none; // Remove o sublinhado dos links também em modo responsivo
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: $small-screen) {
+  .top-menu {
+    flex-direction: column;
+    padding: 10px;
+
+    ul {
+      width: 100%; // Ajuste para que a UL ocupe a largura total
+      justify-content: center; // Centraliza os itens no modo responsivo
+      margin-top: 10px;
+
+      li a {
+        flex-direction: row;
+        align-items: center;
       }
     }
   }
@@ -75,52 +104,72 @@ $small-screen: 768px;
 
 
 .dashboard-container {
+  padding: 120px 20px 20px 20px; // Adjusted to add padding on all sides but more on top
   display: flex;
-  flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 120px;
 }
 
 .dashboard {
   display: flex;
   flex-wrap: wrap;
+  gap: 20px; // Consistent spacing between cards
   justify-content: center;
 }
 
-.dashboard-item {
-  width: 120px;
-  height: 120px; // Ajuste a altura para ser igual à largura para manter um círculo perfeito
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.card {
+  width: 200px; // ou ajuste conforme necessário para o seu design
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  margin: 50px;
-  
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
   .img-icon {
-    width: 100%; // Reduzindo um pouco o tamanho do ícone em relação ao círculo
-    height: auto; // Permitindo que a altura seja ajustada automaticamente de acordo com a largura
-    border-radius: 80%; // Utilizando 50% para criar um círculo perfeito
-    
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-      outline: none;
-    }
+    height: 130px;
+    object-fit: cover;
+  }
+
+  .card-title {
+    opacity: 0.8;
+    color: #333;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px; // Altura fixa para garantir que todo texto esteja alinhado
   }
 }
 
+
+.dashboard-item {
+  cursor: pointer;
+  display: block;
+}
 
 .movie-title {
   text-align: center;
   display: block;
   margin-top: 10px;
-  font-size: 24px;
+  font-size: 30px;
   color: #4d4b4b;
   font-weight: bold;
   text-transform: uppercase;
   transition: transform 0.3s ease;
+
   &:hover {
     transform: translateY(-8px);
   }
@@ -132,4 +181,11 @@ $small-screen: 768px;
   @media screen and (max-width: 480px) {
     font-size: 18px;
   }
+}
+
+.toast-center-center {
+  top: 50%;
+  right: 50%;
+  transform: translateX(50%) translateY(-50%);
+  position: fixed;
 }

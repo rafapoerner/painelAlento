@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   usuarios: any[] = [];
   userName: string | null = null;
   isAdmin: boolean = false;
+  fotoBase64: string = ''
 
   constructor(private router: Router, private panelUserService: PanelUserService, private authService: AuthService) { }
 
@@ -33,10 +34,11 @@ export class DashboardComponent implements OnInit {
         () => {
           this.panelUserService.getUserByEmail(userEmail).subscribe(
             (userData) => {
-              const loggedInUser = userData.find((u: { email: string }) => u.email === userEmail);
+              const loggedInUser = userData.find((u: any) => u.email === userEmail);
               if (loggedInUser && loggedInUser.userName) {
                 this.userName = loggedInUser.userName;
                 this.isAdmin = this.checkIfUserIsAdmin(userEmail);
+                this.fotoBase64 = 'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + loggedInUser.fotoBase64;
               }
             },
             (error) => {
@@ -50,6 +52,7 @@ export class DashboardComponent implements OnInit {
       );
     }
   }
+  
 
   carregarUsuarios(): void {
     this.panelUserService.getUsuarios().subscribe(
@@ -60,6 +63,13 @@ export class DashboardComponent implements OnInit {
         console.error('Erro ao carregar usuários:', error);
       }
     );
+  }
+
+  atualizarUrlFoto(email: string, photoUrl: string): void {
+    const usuario = this.usuarios.find(u => u.email === email)
+    if (usuario) {
+      usuario.photoUrl = photoUrl
+    }
   }
 
   redirectToPowerBi(link: string): void {

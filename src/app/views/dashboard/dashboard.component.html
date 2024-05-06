@@ -1,51 +1,71 @@
 <div class="containerx">
   <div class="top-menu">
     <div class="logo">
-      <img src="/assets/logoGrupoAlento_.png" alt="image">
+      <img src="/assets/logoGrupoAlento_.png" alt="Logo Grupo Alento">
     </div>
-    <div class="user-info">
-      <h3>Olá {{ userName ? userName : 'Usuário' }}!</h3>
+    <div>
+      <ul class="menu-list">
+        <li *ngIf="isAdmin">
+          <a href="/cadastro-usuario">
+            <i class="fas fa-user-plus"></i><span>Novo Usuário</span>
+          </a>
+        </li>
+        <li *ngIf="isAdmin">
+          <a href="/panel-user">
+            <i class="fa-solid fa-people-group"></i><span>Painel de usuários</span>
+          </a>
+        </li>
+        <li>
+          <div>
+            <img [src]="fotoBase64" alt="User Photo">
+            <span>Olá {{ userName ? userName : 'Usuário' }}!</span>
+          </div>
+        </li>
+        <li>
+          <a href="#" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i><span>Sair</span>
+          </a>
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li *ngIf="isAdmin">
-        <a href="/cadastro-usuario">
-          <i class="fas fa-user-plus"></i><span>Novo Usuário</span>
-        </a>
-      </li>
-      <li *ngIf="isAdmin">
-        <a href="/panel-user">
-          <i class="fa-solid fa-people-group"></i><span>Painel de usuários</span> 
-        </a>
-      </li>
-      <li>
-        <a href="#" (click)="logout()">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </a>
-      </li>
-    </ul>
   </div>
 
   <div class="dashboard-container">
     <div class="dashboard">
-      <div>
+      <div class="card">
         <div class="dashboard-item"
           (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiZDE4ODI3OTctNWViYy00Nzc1LTk2NmYtMWYzMTY4M2QyOWNlIiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon "src="/assets/newStore.png" alt="image">
+          <img class="img-icon" src="/assets/newStore.png" alt="Acompanhamento Lojas Novas">
         </div>
-        <span class="movie-title">Acompanhamento<br> Lojas Novas</span>
+        <span class="card-title">Acompanhamento<br>Lojas Novas</span>
       </div>
-      <div>
+      <div class="card">
         <div class="dashboard-item" (click)="redirectToPowerBi('https://x.gd/pjMDm')">
-          <img class="img-icon" src="/assets/resumoFinancas.png" alt="image">
+          <img class="img-icon" src="/assets/resumoExecutivo.png" alt="Resumo Finanças">
         </div>
-        <span class="movie-title">Resumo<br>Finanças</span>
+        <span class="card-title">Resumo<br>Executivo</span>
       </div>
-      <div>
+      <div class="card">
         <div class="dashboard-item"
           (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiOGQxMDA1NjktZWYwYy00MjAxLTg5ODEtYzYxYjMzYTNkYmI3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/ifood.png" alt="image">
+          <img class="img-icon" src="/assets/ifood.png" alt="IFOOD">
         </div>
-        <span class="movie-title">IFOOD</span>
+        <span class="card-title">Ifood</span>
+      </div>
+      <div class="card">
+        <div class="dashboard-item"
+          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiOGQxMDA1NjktZWYwYy00MjAxLTg5ODEtYzYxYjMzYTNkYmI3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
+          <img class="img-icon" src="/assets/gente_gestao.png" alt="Gente e Gestão">
+        </div>
+        <span class="card-title">Gente & Gestão</span>
+      </div>
+      <div class="card">
+        <div class="dashboard-item"
+          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiOGQxMDA1NjktZWYwYy00MjAxLTg5ODEtYzYxYjMzYTNkYmI3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
+          <img class="img-icon" src="/assets/marketing.png" alt="Marketing">
+        </div>
+        <span class="card-title">Marketing</span>
       </div>
     </div>
   </div>
+</div>
