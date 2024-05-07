@@ -72,9 +72,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  redirectToPowerBi(link: string): void {
-    window.location.href = link;
+  redirectToPowerBi(encodedUrl: string): void {
+    this.router.navigate(['/powerbi-view/:url', { url: encodedUrl }]);
   }
+  
 
   checkIfUserIsAdmin(email: string): boolean {
     const adminEmails = ['marcelotheo@grupoalento.com.br', 'rafaelcoutinho@grupoalento.com.br'];
