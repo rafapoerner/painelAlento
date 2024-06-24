@@ -22,15 +22,17 @@ $primary: rgb(182, 157, 230);
 
 .user-details {
   display: flex;
-  align-items: center;
-  margin: 17px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  margin-left: 5px;
 }
 
 .user-details img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 9px;
+  margin-top: 15px;
 }
 
 .user-info h4 {
@@ -39,6 +41,7 @@ $primary: rgb(182, 157, 230);
   color: #000;
   opacity: .80;
   margin-left: 10px;
+
 }
 
 .user-actions button {

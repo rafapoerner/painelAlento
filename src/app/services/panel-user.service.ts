@@ -11,6 +11,17 @@ export class PanelUserService {
 
   constructor(private http: HttpClient) { }
 
+  getUserByEmail(email: string): Observable<any[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const options = { headers: headers };
+
+    return this.http.get<any[]>(`${this.apiUrl}api/identity/get-user-by-email?email=${email}`, options);
+
+  }
+
   getUsuarios(): Observable<any[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -21,14 +32,14 @@ export class PanelUserService {
     return this.http.get<any[]>(`${this.apiUrl}api/identity/list-users`, options);
   }
 
-  getUserByEmail(email: string): Observable<any> {
+  getAllUsers(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json', 
     });
 
     const options = { headers: headers };
 
-    return this.http.get<any>(`${this.apiUrl}api/identity/list-users?email=${email}`, options);
+    return this.http.get<any>(`${this.apiUrl}api/identity/list-users`, options);
   }
   
   saveUserToLocalStorage(user: any): void {

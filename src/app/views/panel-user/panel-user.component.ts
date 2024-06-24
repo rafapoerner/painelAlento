@@ -1,97 +1,117 @@
-import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core'
-import { PanelUserService } from '../../services/panel-user.service'
-import { CommonModule } from '@angular/common'
-import { DeleteUserService } from '../../services/delete-user.service'
-import { ToastrService } from 'ngx-toastr'
-import { GoogleApiService } from '../../utils/google-peopple.service'
+import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
+import { PanelUserService } from '../../services/panel-user.service';
+import { CommonModule } from '@angular/common';
+import { DeleteUserService } from '../../services/delete-user.service';
+import { ToastrService } from 'ngx-toastr';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormsModule } from '@angular/forms'
-import { UserProfile } from '../../models/userProfile'
-import { UpdateUserService } from '../../services/update-user'
-import { HttpClientModule } from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
+import { UserProfile, UserRole, UserRoleMapping } from '../../models/userProfile';
+import { UpdateUserService } from '../../services/update-user';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-panel-user',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './panel-user.component.html',
-  styleUrl: './panel-user.component.scss',
+  styleUrls: ['./panel-user.component.scss'],
 })
 export class PanelUserComponent {
 
-  // variáveis para o registro
-  id: string = ''
-  email: string = ''
-  password: string = ''
-  passwordConfirmation: string = ''
-  fotoBase64: string = ''
-  phone: string = ''
-  profession: string = ''
+  // Variáveis para o registro
+  id: string = '';
+  email: string = '';
+  password: string = '';
+  passwordConfirmation: string = '';
+  fotoBase64: string = '';
+  phone: string = '';
+  cargo: UserRole | null = null;
+  userName: string = '';
 
-  modalRef?: BsModalRef
-  template: any
-  selectedUser: any = {}
+  userRoles = UserRole;
+  userRoleKeys = Object.keys(UserRoleMapping);
+
+  modalRef?: BsModalRef;
+  template: any;
+  selectedUser: { id?: string; email?: string; cargo: UserRole | null; userName?: string } = { cargo: null };
 
   usuarios: any[] = [];
-  userName: string | null = null
-  userToken: any | null = null
+  userToken: any | null = null;
 
-  isLoggedIn: boolean = false
-  userEmail: string | null = null
-  isAdmin: boolean = false
+  isLoggedIn: boolean = false;
+  userEmail: string | null = null;
+  isAdmin: boolean = false;
 
-  // variáveis para o nome do arquivo
-  selectedImage: any | null = null
-  imageName: string = ''
+  // Variáveis para o nome do arquivo
+  selectedImage: any | null = null;
+  imageName: string = '';
 
-  constructor(private panelUserService: PanelUserService,
+  powerBILinks: { url: string, description: string, imageName: string }[] = [];
+
+  constructor(
+    private panelUserService: PanelUserService,
     private updateUserService: UpdateUserService,
     private deleteUserService: DeleteUserService,
     private toastr: ToastrService,
-    private googleApiService: GoogleApiService,
     private modalService: BsModalService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    if (typeof sessionStorage !== 'undefined') {
-      const userString = sessionStorage.getItem('user')
-  
-      if (userString) {
-        const user = JSON.parse(userString);
-  
-        const userEmail = user.userToken?.email || ''
-        const isAdmin = this.checkIfUserIsAdmin(userEmail)
-  
-        this.panelUserService.getUserByEmail(userEmail).subscribe(
-          (userData) => {
-            const loggedInUser = userData.find((u: { email: string }) => u.email === userEmail);
-            if (loggedInUser && loggedInUser.userName) {
-              this.userName = loggedInUser.userName
-              this.userToken = loggedInUser
-              this.panelUserService.saveUserToLocalStorage({
-                ...user,
-                userName: loggedInUser.userName
-              })
-            }
-          },
-          (error) => {
-            console.error('Erro ao carregar dados do usuário:', error);
-          }
-        );
-        this.userEmail = userEmail
-        this.isLoggedIn = true
-        this.isAdmin = isAdmin
-      }
+    this.loadUserData();
+  }
+
+  loadUserData(): void {
+    const userString = sessionStorage.getItem('user');
+    if (userString) {
+      const userEmail = userString.replace(/"/g, '');
+      this.carregarUsuario(userEmail);
+      // this.carregarLinksUsuario(userEmail)
     }
   }
-  
+
+  carregarUsuario(userEmail: string): void {
+    this.panelUserService.getUserByEmail(userEmail).subscribe(
+      (usuario: any) => {
+        if (usuario) {
+          this.userName = usuario.userName;
+          this.isAdmin = this.checkIfUserIsAdmin(userEmail);
+          this.fotoBase64 = 'https://localhost:44316/api/identity/image/' + usuario.fotoBase64;
+        }
+      },
+      (error) => {
+        console.error('Erro ao carregar usuário:', error);
+      }
+    );
+  }
+
   ngAfterViewInit(): void {
     this.carregarUsuarios();
   }
+
+  getRoleLabel(roleNumber: UserRole): string {
+    // Encontra a chave (label) correspondente ao valor do enum no mapeamento
+    const entry = Object.entries(UserRoleMapping).find(([key, value]) => value === roleNumber);
+    // Retorna a chave (label) se encontrada, ou 'Unknown' se não encontrada
+    return entry ? entry[0] : 'Unknown';
+  }
   
 
-  openModal(template: TemplateRef<void>) {
+  getRoleOptions(): { label: string, value: UserRole | '' }[] {
+    const roleOptions = Object.keys(UserRoleMapping).map(key => ({
+      label: key,
+      value: UserRoleMapping[key]
+    }));
+  
+    // Adiciona uma opção em branco no início da lista
+    roleOptions.unshift({ label: '', value: '' as any });
+  
+    return roleOptions;
+  }
+  
+
+  openModal(template: TemplateRef<any>, user: any) {
+    this.selectedUser = { ...user, cargo: user.cargo ?? null };
     this.modalRef = this.modalService.show(template);
   }
 
@@ -99,77 +119,65 @@ export class PanelUserComponent {
     this.panelUserService.getUsuarios().subscribe(
       (usuarios) => {
         this.usuarios = usuarios;
-        this.cdr.detectChanges(); // Forçar detecção de alterações após a atualização dos usuários
+        this.cdr.detectChanges();
+        console.log("loggedInUser:", usuarios);
       },
       (error) => {
-        console.error('Erro ao carregar usuários:', error)
+        console.error('Erro ao carregar usuários:', error);
       }
     );
   }
 
-  obterFotoPerfil(email: string): void {
-    this.googleApiService.getProfilePicture(email).subscribe((response: any) => {
-      const photoUrl = response.photos?.[0]?.url
-      this.atualizarUrlFoto(email, photoUrl)
-    })
-  }
+  updateUserProfile(): void {
+    const updatedUser: UserProfile = {
+      id: this.selectedUser.id!,
+      email: this.selectedUser.email!,
+      cargo: this.selectedUser.cargo!,
+      userName: this.selectedUser.userName!,
+    };
+    console.log('updatedUser:', updatedUser);
 
-  atualizarUrlFoto(email: string, photoUrl: string): void {
-    const usuario = this.usuarios.find(u => u.email === email)
-    if (usuario) {
-      usuario.photoUrl = photoUrl
+    // Verifica se o id está definido e é uma string
+    if (updatedUser.id && typeof updatedUser.id === 'string') {
+      this.updateUserService.updateUser(updatedUser.id, updatedUser).subscribe(
+        (response) => {
+          console.log('Resposta do serviço de atualização de perfil:', response);
+          this.carregarUsuarios();
+          this.modalRef?.hide();
+        },
+        (error) => {
+          console.error('Erro ao atualizar perfil:', error);
+        }
+      );
+    } else {
+      console.error('ID do usuário inválido:', updatedUser.id);
     }
   }
 
-  editUser(template: TemplateRef<any>, user: UserProfile): void {
-    this.email = user.email || '';
-    this.phone = user.phone || '';
-    this.profession = user.profession || '';
+  // Método para atualizar o nome da imagem selecionada
+  updateUserPhoto(event: any): void {
+    const fileInput = event.target;
 
-    // Abra o modal
-    this.openModal(template);
+    if (fileInput.files && fileInput.files.length > 0) {
+      const selectedFile = fileInput.files[0];
+      this.imageName = selectedFile.name; // Atualiza o nome do arquivo selecionado
+
+      this.cdr.detectChanges(); // Força a detecção de mudanças para atualizar a view
+    }
   }
-
-
-  updateUserProfile(): void {
-
-    const updatedUser: UserProfile = {
-      email: this.email,
-      profession: this.profession,
-      fotoBase64: this.fotoBase64
-    };
-    
-    this.updateUserService.updateUser(updatedUser).subscribe(
-      (response) => {
-        console.log('Resposta do serviço de atualização de perfil:', response);
-
-        this.modalRef?.hide();
-      },
-      (error) => {
-        console.error('Erro ao atualizar perfil:', error);
-      }
-    );
-  }
-
-
-  openEditModal(usuario: any): void {
-    this.selectedUser = { ...usuario };
-    this.modalRef = this.modalService.show(this.template, { class: 'modal-lg' });
-  }
-
 
   deleteUser(id: string): void {
     this.deleteUserService.userDelete(id).subscribe(
       () => {
-        console.log('Usuário deletado com sucesso.')
+        console.log('Usuário deletado com sucesso.');
         this.toastr.success('Usuário deletado com sucesso!');
-        this.usuarios = this.usuarios.filter(user => user.id !== id)
+        this.usuarios = this.usuarios.filter(user => user.id !== id);
       },
       (error) => {
-        console.error('Erro ao deletar usuário:', error)
-        this.toastr.error('Usuário não deletado')
+        console.error('Erro ao deletar usuário:', error);
+        this.toastr.error('Usuário não deletado');
       }
-    )
+    );
   }
 
   checkIfUserIsAdmin(email: string): boolean {
@@ -178,31 +186,30 @@ export class PanelUserComponent {
   }
 
   handleImageSelection(event: any): void {
-    const fileInput = event.target
+    const fileInput = event.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
-      const selectedFile = fileInput.files[0]
-      this.imageName = selectedFile.name
+      const selectedFile = fileInput.files[0];
+      this.imageName = selectedFile.name;
     }
   }
 
   onFileSelected(event: any): void {
-    const fileInput = event.target
+    const fileInput = event.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
       this.selectedImage = fileInput.files[0];
     }
-    console.log("Imagem selecionada:", this.selectedImage)
+    console.log("Imagem selecionada:", this.selectedImage);
 
-    this.handleImageSelection(event)
+    this.handleImageSelection(event);
   }
 
   shouldShowContainer(): boolean {
-    return !!this.imageName
+    return !!this.imageName;
   }
 
   deleteImage(): void {
-    this.imageName = ''
+    this.imageName = '';
   }
-
 }

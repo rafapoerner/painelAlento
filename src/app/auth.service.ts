@@ -20,7 +20,6 @@ export class AuthService {
                     console.log('Usuário autenticado:', authenticatedUser.email);
                     this.isLoggedSubject.next(true); // Atualiza o estado de autenticação para true
                 } else {
-                    console.log('Usuário não autenticado');
                     this.isLoggedSubject.next(false); // Atualiza o estado de autenticação para false
                 }
             }),

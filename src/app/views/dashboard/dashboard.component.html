@@ -17,8 +17,9 @@
         </li>
         <li>
           <div>
+            <!-- Exibindo a foto do usuário e saudação -->
             <img [src]="fotoBase64" alt="User Photo">
-            <span>Olá {{ userName ? userName : 'Usuário' }}!</span>
+            <span>Olá {{ userName }}!</span>
           </div>
         </li>
         <li>
@@ -30,49 +31,18 @@
     </div>
   </div>
 
-  <div class="dashboard-container">
-    <div class="dashboard">
-      <div class="card">
-        <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiZDE4ODI3OTctNWViYy00Nzc1LTk2NmYtMWYzMTY4M2QyOWNlIiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/newStore.png" alt="Acompanhamento Lojas Novas">
-        </div>
-        <span class="card-title">Acompanhamento<br>Lojas Novas</span>
+<div class="dashboard-container">
+  <div class="dashboard">
+    <!-- Iterando sobre os links do Power BI -->
+    <div class="card" *ngFor="let link of powerBILinks">
+      <div class="dashboard-item" (click)="redirectToPowerBi(link.url)">
+        <img class="img-icon" [src]="'/assets/' + link.imageName" [alt]="link.description">
       </div>
-      <div class="card">
-        <div class="dashboard-item" (click)="redirectToPowerBi('https://bit.ly/3xg7Ezx')">
-          <img class="img-icon" src="/assets/resumoExecutivo.png" alt="Resumo Finanças">
-        </div>
-        <span class="card-title">Painel<br>Alento</span>
-      </div>
-      <div class="card">
-        <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiOGQxMDA1NjktZWYwYy00MjAxLTg5ODEtYzYxYjMzYTNkYmI3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/ifood.png" alt="IFOOD">
-        </div>
-        <span class="card-title">Ifood</span>
-      </div>
-      <div class="card">
-        <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiODUyNTc3OGYtMjU2YS00NTA5LTk4ZDUtNzNmMDA0NTdkZmQxIiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/gente_gestao.png" alt="Gente e Gestão">
-        </div>
-        <span class="card-title">Gente & Gestão</span>
-      </div>
-      <div class="card">
-        <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://app.powerbi.com/view?r=eyJrIjoiYzhmNWRjZDItMWI2YS00YzZkLWFkNjEtMmU4MWM2OTlkODg3IiwidCI6ImY5ZGI5NTk3LTYyNDktNGQ4Ny1iMzFhLWExYmUxNzQ3YWZkMiJ9')">
-          <img class="img-icon" src="/assets/marketing.png" alt="Marketing">
-        </div>
-        <span class="card-title">Marketing</span>
-      </div>
-      <div class="card">
-        <div class="dashboard-item"
-          (click)="redirectToPowerBi('https://x.gd/HWgbD')">
-          <img class="img-icon" src="/assets/resumo_executivo.png" alt="Marketing">
-        </div>
-        <span class="card-title">Resumo Executivo</span>
-      </div>
+      <!-- Exibindo o título do link -->
+      <span class="card-title">{{ link.description }}</span>
     </div>
   </div>
+</div>
+
+  
 </div>

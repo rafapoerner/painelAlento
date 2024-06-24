@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PanelUserService } from '../../services/panel-user.service';
 import { AuthService } from '../../auth.service';
 import { CommonModule } from '@angular/common';
+import { UserProfile, UserRole } from '../../models/userProfile';  // Ajuste o caminho conforme necessário
 
 @Component({
   selector: 'app-dashboard',
@@ -13,77 +14,99 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
 
-  usuarios: any[] = [];
+  usuarios: UserProfile[] = [];
+  usuario: UserProfile[] = [];
   userName: string | null = null;
   isAdmin: boolean = false;
-  fotoBase64: string = ''
+  fotoBase64: string = '';
+  powerBILinks: { url: string, description: string, imageName: string }[] = [];
 
   constructor(private router: Router, private panelUserService: PanelUserService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadUserData();
-    this.carregarUsuarios();
   }
 
   loadUserData(): void {
     const userString = sessionStorage.getItem('user');
     if (userString) {
-      const user = JSON.parse(userString);
-      const userEmail = user.userToken?.email || '';
-      this.authService.login(userEmail).subscribe(
-        () => {
-          this.panelUserService.getUserByEmail(userEmail).subscribe(
-            (userData) => {
-              const loggedInUser = userData.find((u: any) => u.email === userEmail);
-              if (loggedInUser && loggedInUser.userName) {
-                this.userName = loggedInUser.userName;
-                this.isAdmin = this.checkIfUserIsAdmin(userEmail);
-                this.fotoBase64 = 'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + loggedInUser.fotoBase64;
-              }
-            },
-            (error) => {
-              console.error('Erro ao obter informações do usuário:', error);
-            }
-          );
-        },
-        (error) => {
-          console.error('Erro ao autenticar usuário:', error);
-        }
-      );
+      const userEmail = userString.replace(/"/g, '');
+
+      this.carregarUsuario(userEmail);
+      // this.carregarLinksUsuario(userEmail)
     }
   }
-  
 
-  carregarUsuarios(): void {
-    this.panelUserService.getUsuarios().subscribe(
-      (usuarios) => {
-        this.usuarios = usuarios;
+  carregarUsuario(userEmail: string): void {
+    this.panelUserService.getUserByEmail(userEmail).subscribe(
+      (usuario: any) => {
+        console.log("Dados do usuário:", usuario);
+        if (usuario) {
+          this.userName = usuario.userName;
+          this.isAdmin = this.checkIfUserIsAdmin(userEmail);
+          this.fotoBase64 = 'https://localhost:44316/api/identity/image/' + usuario.fotoBase64;
+          this.powerBILinks = usuario.powerBILinks
+          this.mapearImagensParaLinks(usuario.powerBILinks);
+        }
+        // console.log("links", usuario.powerBILinks)
       },
       (error) => {
-        console.error('Erro ao carregar usuários:', error);
+        console.error('Erro ao carregar usuário:', error);
       }
     );
   }
 
+  mapearImagensParaLinks(links: { url: string, description: string }[]): void {
+    if (links) {
+      this.powerBILinks = links.map(link => ({
+        url: link.url,
+        description: link.description,
+        imageName: this.getNomeImagemPorLink(link.description)
+      }));
+      console.log("Power BI Links mapeados:", this.powerBILinks);
+    }
+  }
+
+  getNomeImagemPorLink(imageName: string): string {
+    imageName = imageName.trim()
+    if (imageName === "Acompanhamento Lojas Novas") {
+      return 'newStore.png';
+    } else if (imageName === "Resumo Executivo") {
+      return 'resumo_executivo.png';
+    } else if (imageName === 'Marketing') {
+      return 'marketing.png';
+    } else if (imageName === 'Delivery') {
+      return 'ifood.png';
+    } else if (imageName === 'Gente & Gestão') {
+      return 'gente_gestao.png';
+    } else if (imageName === 'Painel Alento') {
+      return 'resumoExecutivo.png';
+    } else {
+      return 'default_icon.png'; 
+    }
+  }
+  
+
+
+
   atualizarUrlFoto(email: string, photoUrl: string): void {
-    const usuario = this.usuarios.find(u => u.email === email)
+    const usuario = this.usuarios.find(u => u.email === email);
     if (usuario) {
-      usuario.photoUrl = photoUrl
+      usuario.fotoBase64 = photoUrl;
     }
   }
 
   redirectToPowerBi(encodedUrl: string): void {
     this.router.navigate(['/powerbi-view/:url', { url: encodedUrl }]);
   }
-  
-
-  checkIfUserIsAdmin(email: string): boolean {
-    const adminEmails = ['marcelotheo@grupoalento.com.br', 'rafaelcoutinho@grupoalento.com.br'];
-    return adminEmails.includes(email);
-  }
 
   logout(): void {
     sessionStorage.removeItem('user');
     this.router.navigate(['/login']);
+  }
+
+  checkIfUserIsAdmin(email: string): boolean {
+    const adminEmails = ['marcelotheo@grupoalento.com.br', 'rafaelcoutinho@grupoalento.com.br'];
+    return adminEmails.includes(email);
   }
 }

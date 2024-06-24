@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NewUser } from '../models/newUser';
 import { UserProfile } from '../models/userProfile';
 import { environment } from '../../environments/environment.prod';
 
@@ -14,12 +13,11 @@ export class UpdateUserService {
 
   constructor(private http: HttpClient) {}
 
-  updateUser(userProfile: UserProfile): Observable<any> {
-
-    const cadastroUrl = `${this.apiUrl}api/identity/update-user/{userId}`;
-
+  updateUser(userId: string, userProfile: UserProfile): Observable<any> {
+    const cadastroUrl = `${this.apiUrl}api/identity/update-user/${userId}`;
     return this.http.put(cadastroUrl, userProfile);
   }
+  
 
   uploadImage(formData: any): Observable<any> {
     const uploadUrl = `${this.apiUrl}api/identity/upload-image`;

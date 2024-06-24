@@ -1,12 +1,11 @@
-import { Component} from '@angular/core'
-import { Router } from '@angular/router'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { NewUserService } from '../../services/new-user.service'
-import { NewUser } from '../../models/newUser'
-import { HttpClientModule } from '@angular/common/http'
-import { ToastrModule, ToastrService } from 'ngx-toastr'
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { NewUserService } from '../../services/new-user.service';
+import { NewUser } from '../../models/newUser';
+import { ToastrService } from 'ngx-toastr';
+import { UserRole, UserRoleMapping } from '../../models/userProfile';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -16,74 +15,65 @@ import { ToastrModule, ToastrService } from 'ngx-toastr'
   styleUrls: ['./cadastro-usuario.component.scss']
 })
 export class CadastroUsuarioComponent {
+  userName: string = '';
+  email: string = '';
+  password: string = '';
+  passwordConfirmation: string = '';
+  phone: string = '';
+  cargo: string | null = null;
 
-  // variáveis para o registro
-  userName: string = ''
-  email: string = ''
-  password: string = ''
-  passwordConfirmation: string = ''
+  selectedImage: any | null = null;
   fotoBase64: string = ''
-  phone: string = ''
-  profession: string = ''
-
-  // variáveis para o nome do arquivo
-  selectedImage: any | null = null
   imageName: string = ''
+
+  userRoles = UserRole;
+  userRoleKeys = Object.keys(UserRoleMapping);
 
   constructor(private router: Router, private toastr: ToastrService, private newUserService: NewUserService) { }
 
   ngOnInit() { }
 
-  // exibirToastr(): void {
-  //   const toastrConfig = {
-  //     positionClass: 'toast-top-center',
-  //   };
-
-  //   this.toastr.success('Usuário cadastrado com sucesso!', '', toastrConfig)
-  // }
-
-
   register(): void {
-    const newUser: NewUser = {
+    const newUser = {
       userName: this.userName,
       email: this.email,
       phone: this.phone,
-      profession: this.profession,
+      cargo: UserRoleMapping[this.cargo!] || UserRole.Consultor,
       password: this.password,
       passwordConfirmation: this.passwordConfirmation,
-      fotoBase64: this.fotoBase64
+      fotoBase64: this.imageName
     };
+    console.log('Resposta do serviço de cadastro:', newUser);
 
     this.newUserService.cadastrarUsuario(newUser).subscribe(
-      (response) => {
-        console.log('Resposta do serviço de cadastro:', response)
+      (response: any) => {
         if (response.id) {
-          this.uploadImagem(response.id)
+          this.uploadImagem(response.id); // Envie o ID do usuário para associar a imagem
         } else {
-          console.error('ID do usuário não está presente na resposta do serviço de cadastro.')
+          console.error('ID do usuário não está presente na resposta do serviço de cadastro.');
         }
       },
-      (error) => {
-        console.error('Erro ao cadastrar usuário:', error)
+      (error: any) => {
+        console.error('Erro ao cadastrar usuário:', error);
       }
     );
   }
-
 
   uploadImagem(userId: string): void {
     if (!this.selectedImage) {
       console.error('Nenhuma imagem selecionada.')
       return
     }
-
+  
     const formData = new FormData()
     formData.append('userId', userId)
     formData.append('files', this.selectedImage)
-
+    // formData.append('imageName', this.imageName)  // Envia o nome da imagem
+  
     this.newUserService.uploadImage(formData).subscribe(
       (imageResponse) => {
         console.log('Resposta do serviço de upload de imagem:', imageResponse)
-
+  
         this.toastr.success('Usuário cadastrado com sucesso')
         this.router.navigate(['/panel-user'])
       },
@@ -92,7 +82,8 @@ export class CadastroUsuarioComponent {
       }
     )
   }
-
+  
+  
 
   onFileSelected(event: any): void {
     const fileInput = event.target
@@ -115,11 +106,11 @@ export class CadastroUsuarioComponent {
   }
 
   deleteImage(): void {
-    this.imageName = ''
+    this.selectedImage = null;
+    this.imageName = '';
   }
 
   shouldShowContainer(): boolean {
-    return !!this.imageName
+    return !!this.imageName;
   }
-
 }

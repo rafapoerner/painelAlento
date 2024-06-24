@@ -13,9 +13,10 @@ import { UserLoginService } from '../../services/user-login.service';
   imports: [CommonModule, FormsModule],
 })
 export class LoginComponent implements OnInit {
+  
   email: string = '';
   password: string = '';
-  isLoading: boolean = false; // Adicionando a variável isLoading
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -29,15 +30,15 @@ export class LoginComponent implements OnInit {
     const email = this.email;
     const password = this.password;
 
-    this.isLoading = true; // Mostrar o spinner ao iniciar o login
+    //spinner
+    this.isLoading = true;
 
     this.userAuthService.login({ email, password }).subscribe(
       (response) => {
-        console.log('Resposta do serviço:', response);
-        sessionStorage.setItem('user', JSON.stringify(response));
+        sessionStorage.setItem('user', JSON.stringify(response.email));
         this.toastr.success('Usuário logado com sucesso!');
         this.router.navigate(['/dashboard']);
-        this.isLoading = false; // Esconder o spinner após o login com sucesso
+        this.isLoading = false; 
       },
       (error) => {
         console.error('Erro ao autenticar usuário:', error);
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.toastr.error('Ocorreu um erro durante a autenticação');
         }
-        this.isLoading = false; // Esconder o spinner após erro no login
+        this.isLoading = false;
       }
     );
   }

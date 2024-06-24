@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: "https://painelalentoapi.alentointeligencia.com.br/" 
+  apiUrl: "https://localhost:44316/" 
 };
 
 // apiUrl: "https://painelalentoapi.up.railway.app/" 

@@ -21,7 +21,7 @@ export class UserLoginService {
     });
 
     const options = { headers: headers };
-    const loginUrl = `${this.apiUrl}api/identity/authenticated`;
+    const loginUrl = `${this.apiUrl}api/identity/login`;
 
     return this.http.post(loginUrl, userLogin, options).pipe(
       tap((response: any) => { // tap - side effect para ações que não interferem no fluxo principal. ex: sessionStorage.
