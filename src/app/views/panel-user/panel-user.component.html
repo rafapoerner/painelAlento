@@ -25,7 +25,7 @@
 <div class="user-list">
   <div class="user-item" *ngFor="let usuario of usuarios">
     <div class="user-details">
-      <img [src]="'https://localhost:44316/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+      <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
       <div class="user-info">
         <h4>{{ usuario.userName }}</h4>
         <h4>{{ getRoleLabel(usuario.cargo) }}</h4>
@@ -45,7 +45,7 @@
         </div>
         <div class="modal-body">
           <div class="user-details">
-            <img [src]="'https://localhost:44316/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+            <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
             <div class="user-info">
               <input type="hidden" [(ngModel)]="selectedUser.id" [ngModelOptions]="{standalone: true}">
               <div class="form-group">

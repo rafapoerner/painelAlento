@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
         if (usuario) {
           this.userName = usuario.userName;
           this.isAdmin = this.checkIfUserIsAdmin(userEmail);
-          this.fotoBase64 = 'https://localhost:44316/api/identity/image/' + usuario.fotoBase64;
+          this.fotoBase64 = 'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64;
           this.powerBILinks = usuario.powerBILinks
           this.mapearImagensParaLinks(usuario.powerBILinks);
         }
