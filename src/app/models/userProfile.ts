@@ -24,6 +24,7 @@ export enum UserRole {
   Operacoes,
   Marketing,
   GenteGestao,
+  BrazaPT
 }
 
 export const UserRoleMapping: { [key: string]: UserRole } = {
@@ -36,6 +37,7 @@ export const UserRoleMapping: { [key: string]: UserRole } = {
   'Operações': UserRole.Operacoes,
   'Marketing': UserRole.Marketing,
   'Gente & Gestão': UserRole.GenteGestao,
+  'BrazaPT': UserRole.BrazaPT
 };
 
 

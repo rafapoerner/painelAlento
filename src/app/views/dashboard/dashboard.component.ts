@@ -81,6 +81,12 @@ export class DashboardComponent implements OnInit {
       return 'gente_gestao.png';
     } else if (imageName === 'Painel Alento') {
       return 'resumoExecutivo.png';
+    } else if (imageName === 'Faturamento Lojas - Braza') {
+      return 'braza_pt.jpeg';
+    } else if (imageName === 'Delivery Braza') {
+      return 'braza_delivery.jpeg';
+    } else if (imageName === 'Formulário de Lançamento') {
+      return 'lancamento_formulario.png';
     } else {
       return 'default_icon.png'; 
     }
