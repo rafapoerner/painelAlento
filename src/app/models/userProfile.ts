@@ -21,10 +21,11 @@ export enum UserRole {
   Consultor,
   Supply,
   Qualidade,
-  Operacoes,
+  Delivery,
   Marketing,
   GenteGestao,
-  BrazaPT
+  BrazaPT,
+  BrazaStore
 }
 
 export const UserRoleMapping: { [key: string]: UserRole } = {
@@ -34,10 +35,11 @@ export const UserRoleMapping: { [key: string]: UserRole } = {
   'Consultor': UserRole.Consultor,
   'Supply': UserRole.Supply,
   'Qualidade': UserRole.Qualidade,
-  'Operações': UserRole.Operacoes,
+  'Delivery': UserRole.Delivery,
   'Marketing': UserRole.Marketing,
   'Gente & Gestão': UserRole.GenteGestao,
-  'BrazaPT': UserRole.BrazaPT
+  'Braza PT': UserRole.BrazaPT,
+  'Braza Store': UserRole.BrazaStore
 };
 
 

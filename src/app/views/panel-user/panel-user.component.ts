@@ -18,7 +18,6 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class PanelUserComponent {
 
-  // Variáveis para o registro
   id: string = '';
   email: string = '';
   password: string = '';
@@ -36,13 +35,13 @@ export class PanelUserComponent {
   selectedUser: { id?: string; email?: string; cargo: UserRole | null; userName?: string } = { cargo: null };
 
   usuarios: any[] = [];
+  filteredUsuarios: any[] = [];
   userToken: any | null = null;
 
   isLoggedIn: boolean = false;
   userEmail: string | null = null;
   isAdmin: boolean = false;
 
-  // Variáveis para o nome do arquivo
   selectedImage: any | null = null;
   imageName: string = '';
 
@@ -61,12 +60,17 @@ export class PanelUserComponent {
     this.loadUserData();
   }
 
+  sidebarHidden = true; // Inicia o sidebar escondido
+
+  toggleSidebar() {
+    this.sidebarHidden = !this.sidebarHidden;
+  }
+
   loadUserData(): void {
     const userString = sessionStorage.getItem('user');
     if (userString) {
       const userEmail = userString.replace(/"/g, '');
       this.carregarUsuario(userEmail);
-      // this.carregarLinksUsuario(userEmail)
     }
   }
 
@@ -90,12 +94,9 @@ export class PanelUserComponent {
   }
 
   getRoleLabel(roleNumber: UserRole): string {
-    // Encontra a chave (label) correspondente ao valor do enum no mapeamento
     const entry = Object.entries(UserRoleMapping).find(([key, value]) => value === roleNumber);
-    // Retorna a chave (label) se encontrada, ou 'Unknown' se não encontrada
     return entry ? entry[0] : 'Unknown';
   }
-  
 
   getRoleOptions(): { label: string, value: UserRole | '' }[] {
     const roleOptions = Object.keys(UserRoleMapping).map(key => ({
@@ -103,12 +104,10 @@ export class PanelUserComponent {
       value: UserRoleMapping[key]
     }));
   
-    // Adiciona uma opção em branco no início da lista
     roleOptions.unshift({ label: '', value: '' as any });
   
     return roleOptions;
   }
-  
 
   openModal(template: TemplateRef<any>, user: any) {
     this.selectedUser = { ...user, cargo: user.cargo ?? null };
@@ -119,13 +118,21 @@ export class PanelUserComponent {
     this.panelUserService.getUsuarios().subscribe(
       (usuarios) => {
         this.usuarios = usuarios;
+        this.filteredUsuarios = usuarios;
         this.cdr.detectChanges();
-        console.log("loggedInUser:", usuarios);
       },
       (error) => {
         console.error('Erro ao carregar usuários:', error);
       }
     );
+  }
+
+  filterUsersByRole(role: UserRole | ''): void {
+    if (role === '') {
+      this.filteredUsuarios = this.usuarios;
+    } else {
+      this.filteredUsuarios = this.usuarios.filter(usuario => usuario.cargo === role);
+    }
   }
 
   updateUserProfile(): void {
@@ -135,13 +142,10 @@ export class PanelUserComponent {
       cargo: this.selectedUser.cargo!,
       userName: this.selectedUser.userName!,
     };
-    console.log('updatedUser:', updatedUser);
 
-    // Verifica se o id está definido e é uma string
     if (updatedUser.id && typeof updatedUser.id === 'string') {
       this.updateUserService.updateUser(updatedUser.id, updatedUser).subscribe(
         (response) => {
-          console.log('Resposta do serviço de atualização de perfil:', response);
           this.carregarUsuarios();
           this.modalRef?.hide();
         },
@@ -154,27 +158,24 @@ export class PanelUserComponent {
     }
   }
 
-  // Método para atualizar o nome da imagem selecionada
   updateUserPhoto(event: any): void {
     const fileInput = event.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
       const selectedFile = fileInput.files[0];
-      this.imageName = selectedFile.name; // Atualiza o nome do arquivo selecionado
-
-      this.cdr.detectChanges(); // Força a detecção de mudanças para atualizar a view
+      this.imageName = selectedFile.name;
+      this.cdr.detectChanges();
     }
   }
 
   deleteUser(id: string): void {
     this.deleteUserService.userDelete(id).subscribe(
       () => {
-        console.log('Usuário deletado com sucesso.');
         this.toastr.success('Usuário deletado com sucesso!');
         this.usuarios = this.usuarios.filter(user => user.id !== id);
+        this.filteredUsuarios = this.filteredUsuarios.filter(user => user.id !== id);
       },
       (error) => {
-        console.error('Erro ao deletar usuário:', error);
         this.toastr.error('Usuário não deletado');
       }
     );
@@ -200,7 +201,6 @@ export class PanelUserComponent {
     if (fileInput.files && fileInput.files.length > 0) {
       this.selectedImage = fileInput.files[0];
     }
-    console.log("Imagem selecionada:", this.selectedImage);
 
     this.handleImageSelection(event);
   }

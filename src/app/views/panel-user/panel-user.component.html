@@ -1,85 +1,99 @@
-<!-- user.component.html -->
-<div class="top-menu">
-  <a href="/dashboard">
-    <img src="/assets/logoGrupoAlento_.png" alt="image">
-  </a>
-  <ul>
-    <li *ngIf="isAdmin">
-      <a href="/cadastro-usuario">
-        <i class="fas fa-user-plus"></i> Novo Usuário
-      </a>
-    </li>
-    <li>
-      <a>
-        <h3>Olá {{ userName ? userName : 'Usuário' }}!</h3>
-      </a>
-    </li>
-    <li>
-      <a href="dashboard">
-        <i class="fa-solid fa-right-from-bracket"></i>
-      </a>
-    </li>
-  </ul>
-</div>
+<div class="container">
+  <div id="sidebar" class="sidebar">
+    <h3>Cargos</h3>
+    <ul>
+      <li *ngFor="let role of getRoleOptions()" (click)="filterUsersByRole(role.value)">
+        {{ role.label }}
+      </li>
+    </ul>
+  </div>
 
-<div class="user-list">
-  <div class="user-item" *ngFor="let usuario of usuarios">
-    <div class="user-details">
-      <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
-      <div class="user-info">
-        <h4>{{ usuario.userName }}</h4>
-        <h4>{{ getRoleLabel(usuario.cargo) }}</h4>
-      </div>      
+  <div class="main-content">
+    <div class="top-menu">
+      <a href="/dashboard">
+        <img src="/assets/logoGrupoAlento_.png" alt="image">
+      </a>
+      <ul>
+        <li *ngIf="isAdmin">
+          <a href="/cadastro-usuario">
+            <i class="fas fa-user-plus"></i> Novo Usuário
+          </a>
+        </li>
+        <li>
+          <a>
+            <h3>Olá {{ userName ? userName : 'Usuário' }}!</h3>
+          </a>
+        </li>
+        <li>
+          <a href="/dashboard">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="user-actions">
-      <button type="button" class="btn btn-primary" (click)="openModal(template, usuario)">
-        <i class="fas fa-edit"></i>
-      </button>
 
-      <ng-template #template>
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Editar Usuário</h4>
-          <button type="button" class="btn-close close pull-right button-close" aria-label="Close" (click)="modalRef?.hide()">
-            <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <div class="user-list">
+      <div class="user-item" *ngFor="let usuario of filteredUsuarios">
+        <div class="user-details">
+          <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
+          <div class="user-info">
+            <h4>{{ usuario.userName }}</h4>
+            <h4>{{ getRoleLabel(usuario.cargo) }}</h4>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button type="button" class="btn btn-primary" (click)="openModal(template, usuario)">
+            <i class="fas fa-edit"></i>
+          </button>
+
+          <button type="button" class="btn btn-danger" (click)="deleteUser(usuario.id)">
+            <i class="fas fa-trash"></i>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="user-details">
-            <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + usuario.fotoBase64" alt="User Photo">
-            <div class="user-info">
-              <input type="hidden" [(ngModel)]="selectedUser.id" [ngModelOptions]="{standalone: true}">
-              <div class="form-group">
-                <label for="userName">Nome:</label>
-                <input type="text" id="userName" [(ngModel)]="selectedUser.userName" [ngModelOptions]="{standalone: true}" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="cargo">Cargo:</label>
-                <select id="cargo" [(ngModel)]="selectedUser.cargo" [ngModelOptions]="{standalone: true}" class="form-control">
-                  <option *ngFor="let role of getRoleOptions()" [ngValue]="role.value">
-                    {{ role.label }}
-                  </option>
-                </select>
-              </div>
-              
-            </div>
-          </div>
-          <div class="upload-image">
-            <!-- <label for="inputFile" class="custom-file-upload">Editar imagem</label>
-            <input type="file" id="inputFile" (change)="onFileSelected($event)" accept="image/*">
-            <div *ngIf="shouldShowContainer()" class="image-container">
-              <p>{{ imageName }}</p>
-              <i class="fa-regular fa-trash-can" (click)="deleteImage()"></i>
-            </div> -->
-            <div class="edit-button">
-              <button (click)="updateUserProfile()">Salvar Alterações</button>
-            </div>
-          </div>
-        </div>
-        
-        
-      </ng-template>
-
-      <button (click)="deleteUser(usuario.id)"><i class="fas fa-trash-alt"></i></button>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Editar Usuário</h4>
+    <button type="button" class="btn-close close pull-right button-close" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="user-details">
+      <img [src]="'https://painelalentoapi.alentointeligencia.com.br/api/identity/image/' + filteredUsuarios" alt="User Photo">
+      <div class="user-info">
+        <input type="hidden" [(ngModel)]="selectedUser.id" [ngModelOptions]="{standalone: true}">
+        <div class="form-group">
+          <label for="userName">Nome:</label>
+          <input type="text" id="userName" [(ngModel)]="selectedUser.userName" [ngModelOptions]="{standalone: true}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="cargo">Cargo:</label>
+          <select id="cargo" [(ngModel)]="selectedUser.cargo" [ngModelOptions]="{standalone: true}" class="form-control">
+            <option *ngFor="let role of getRoleOptions()" [ngValue]="role.value">
+              {{ role.label }}
+            </option>
+          </select>
+        </div>
+        
+      </div>
+    </div>
+    <div class="upload-image">
+      <!-- <label for="inputFile" class="custom-file-upload">Editar imagem</label>
+      <input type="file" id="inputFile" (change)="onFileSelected($event)" accept="image/*">
+      <div *ngIf="shouldShowContainer()" class="image-container">
+        <p>{{ imageName }}</p>
+        <i class="fa-regular fa-trash-can" (click)="deleteImage()"></i>
+      </div> -->
+      <div class="edit-button">
+        <button (click)="updateUserProfile()">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+  
+  
+</ng-template>
