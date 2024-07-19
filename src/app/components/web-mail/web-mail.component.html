@@ -1,0 +1,30 @@
+<div class="col-md-9">
+    <div class="dashboard-container">
+        <div class="dashboard">
+            <ng-container *ngIf="filteredLinks().length > 0">
+                <div class="cards-wrapper">
+                    <div class="card" *ngFor="let link of filteredLinks()">
+                        <div class="dashboard-item" (click)="onLinkClick(link.url)">
+                            <img class="img-icon" [src]="'/assets/' + link.imageName" [alt]="link.description">
+                        </div>
+                        <div class="card-title">
+                            <span>{{ link.description }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- <h1 style="text-align: center; margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    Estou aqui na WEBMAIL!</h1>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style> -->

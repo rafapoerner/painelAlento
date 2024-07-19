@@ -8,7 +8,6 @@ import { provideToastr } from 'ngx-toastr';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from './auth.service';
-import { NgxWebstorageModule } from 'ngx-webstorage';
 
 
 export const appConfig: ApplicationConfig = {

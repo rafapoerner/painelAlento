@@ -1,48 +1,45 @@
-<div class="containerx">
-  <div class="top-menu">
-    <div class="logo">
-      <img src="/assets/logoGrupoAlento_.png" alt="Logo Grupo Alento">
-    </div>
-    <div>
-      <ul class="menu-list">
-        <li *ngIf="isAdmin">
-          <a href="/cadastro-usuario">
-            <i class="fas fa-user-plus"></i><span>Novo Usuário</span>
-          </a>
-        </li>
-        <li *ngIf="isAdmin">
-          <a href="/panel-user">
-            <i class="fa-solid fa-people-group"></i><span>Painel de usuários</span>
-          </a>
-        </li>
-        <li>
-          <div>
-            <!-- Exibindo a foto do usuário e saudação -->
-            <img [src]="fotoBase64" alt="User Photo">
-            <span>Olá {{ userName }}!</span>
-          </div>
-        </li>
-        <li>
-          <a href="#" (click)="logout()">
-            <i class="fa-solid fa-right-from-bracket"></i><span>Sair</span>
-          </a>
-        </li>
-      </ul>
+<div class="container-fluid">
+  <!-- Top Menu -->
+  <div class="row">
+    <div class="col">
+      <app-top-menu></app-top-menu>
     </div>
   </div>
 
-<div class="dashboard-container">
-  <div class="dashboard">
-    <!-- Iterando sobre os links do Power BI -->
-    <div class="card" *ngFor="let link of powerBILinks">
-      <div class="dashboard-item" (click)="redirectToPowerBi(link.url)">
-        <img class="img-icon" [src]="'/assets/' + link.imageName" [alt]="link.description">
-      </div>
-      <!-- Exibindo o título do link -->
-      <span class="card-title">{{ link.description }}</span>
+  <!-- Conteúdo principal da Dashboard -->
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+      <app-side-bar [selectedCategory]="selectedCategory" (categorySelected)="selectCategory($event)"></app-side-bar>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="col-md-9">
+      <ng-container *ngIf="selectedCategory === 'B.I.'">
+        <app-links-bi [selectedCategory]="selectedCategory" [powerBILinks]="filteredPowerBILinks"
+                      (linkClicked)="onLinkClicked($event)">
+        </app-links-bi>
+      </ng-container>
+      
+      <ng-container *ngIf="selectedCategory === 'Emails'">
+        <app-web-mail [selectedCategory]="selectedCategory" [powerBILinks]="filteredPowerBILinks"
+                      (linkClicked)="onLinkClicked($event)">
+        </app-web-mail>
+      </ng-container>
+
+      <ng-container *ngIf="selectedCategory === 'Degust One'">
+        <app-degust-one [selectedCategory]="selectedCategory" [powerBILinks]="filteredPowerBILinks"
+                        (linkClicked)="onLinkClicked($event)">
+        </app-degust-one>
+      </ng-container>
+
+      <ng-container *ngIf="selectedCategory === 'Menuboard Posts'">
+        <app-menuboard-posts [selectedCategory]="selectedCategory" [powerBILinks]="filteredPowerBILinks"
+                        (linkClicked)="onLinkClicked($event)">
+        </app-menuboard-posts>
+      </ng-container>
+      
+      <router-outlet></router-outlet>
     </div>
   </div>
-</div>
-
-  
 </div>

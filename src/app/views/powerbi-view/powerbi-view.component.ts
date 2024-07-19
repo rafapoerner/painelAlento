@@ -20,12 +20,13 @@ export class PowerBiViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const url = params.get('url');
+    this.route.params.subscribe(params => {
+      const url = params['url'];
       console.log('URL received:', url); // Este log vai confirmar o que estamos recebendo
       if (url) {
-        // Não há necessidade de decodificar base64 aqui. Apenas sanitize e use.
-        this.reportUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        const decodedUrl = decodeURIComponent(url);
+        console.log('Decoded URL:', decodedUrl); // Log para a URL decodificada
+        this.reportUrl = this.sanitizer.bypassSecurityTrustResourceUrl(decodedUrl);
       } else {
         console.error('URL parameter is missing');
       }

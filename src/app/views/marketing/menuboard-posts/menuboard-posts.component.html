@@ -1,0 +1,28 @@
+<div class="col-md-12">
+    <div class="dashboard-container">
+        <div class="dashboard">
+            <ng-container *ngIf="filteredLinks().length > 0">
+                <div class="cards-wrapper">
+                    <div class="card" *ngFor="let link of filteredLinks()">
+                        <div class="dashboard-item" (click)="onLinkClick(link.url)">
+                            <img class="img-icon" [src]="'/assets/' + link.imageName" [alt]="link.description">
+                        </div>
+                        <div class="card-title">
+                            <span>{{ link.description }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- <body>
+    <div class="container">
+        <h1>Pessoas Trabalhando</h1>
+        <div class="svg-container">
+            <i class="fas fa-hard-hat fa-5x"></i>
+        </div>
+        <p>Estamos trabalhando, já já essa página de Menuboard Posts estará pronta! ;)</p>
+    </div>
+</body> -->

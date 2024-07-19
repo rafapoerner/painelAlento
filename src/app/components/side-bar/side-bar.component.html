@@ -1,0 +1,46 @@
+<div id="sidebar" class="sidebar" [class.closed]="isSidebarClosed">
+  <button class="toggle-button" (click)="toggleSidebar()">
+    <ng-container *ngIf="!isSidebarClosed; else closedIcon">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 8H6M6 8L9.08571 5M6 8L9.08571 11" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M3 3V13" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </ng-container>
+    <ng-template #closedIcon>
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 8H10M10 8L6.91429 5M10 8L6.91429 11" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M13 3V13" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </ng-template>
+  </button>
+
+  <ul>
+    <li>
+      <a routerLink="/dashboard/links-bi" (click)="navigateTo('B.I.')"> 
+        <i class="fas fa-chart-bar"></i><span>B.I.</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/web-mail" (click)="navigateTo('Emails')">
+        <i class="fas fa-envelope"></i><span>Emails</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/degust-one" (click)="navigateTo('Degust One')">
+        <i class="fas fa-utensils"></i><span>Degust One</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="toggleMarketingMenu()">
+        <i class="fas fa-bullhorn"></i><span>Marketing</span>
+        <i [class]="isMarketingMenuOpen ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+      </a>
+      <ul [ngClass]="{'open': isMarketingMenuOpen}">
+        <li><a (click)="navigateTo('loja-virtual')">Loja Virtual</a></li>
+        <li><a (click)="navigateTo('fundo-de-marketing')">Fundo de Marketing</a></li>
+        <li><a (click)="navigateTo('menuboard-posts')">Menuboard Posts</a></li>
+        <li><a (click)="navigateTo('downloads')">Downloads</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

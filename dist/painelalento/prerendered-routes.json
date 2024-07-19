@@ -2,7 +2,15 @@
   "routes": [
     "/cadastro-usuario",
     "/dashboard",
+    "/dashboard/degust-one",
+    "/dashboard/downloads",
+    "/dashboard/fundo-de-marketing",
+    "/dashboard/links-bi",
+    "/dashboard/loja-virtual",
+    "/dashboard/menuboard-posts",
+    "/dashboard/web-mail",
     "/login",
-    "/panel-user"
+    "/panel-user",
+    "/powerbi-view"
   ]
 }

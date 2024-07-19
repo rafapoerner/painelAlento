@@ -36,7 +36,12 @@ export class LoginComponent implements OnInit {
     this.userAuthService.login({ email, password }).subscribe(
       (response) => {
         sessionStorage.setItem('user', JSON.stringify(response.email));
-        this.toastr.success('Usuário logado com sucesso!');
+        this.toastr.success('Usuário logado com sucesso!', '', {
+          positionClass: 'toast-top-center',
+          timeOut: 2000, // Duration in milliseconds (2 seconds)
+          easeTime: 300, // Animation duration in milliseconds (0.3 seconds)
+          closeButton: true // Show close button
+        });
         this.router.navigate(['/dashboard']);
         this.isLoading = false; 
       },

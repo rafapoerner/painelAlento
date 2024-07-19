@@ -6,11 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { UserRole, UserRoleMapping } from '../../models/userProfile';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 
 @Component({
   selector: 'app-cadastro-usuario',
   templateUrl: './cadastro-usuario.component.html',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TopMenuComponent],
   standalone: true,
   styleUrls: ['./cadastro-usuario.component.scss']
 })

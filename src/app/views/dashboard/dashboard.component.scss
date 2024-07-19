@@ -1,191 +1,61 @@
-$small-screen: 768px;
-
-.top-menu,
-h3 {
-  background-color: #d8e5ee;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 13px solid #0058a3;
-  padding-top: 8px;
-  z-index: 1000;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 17px;
-  font-weight: bold;
-  color: #4d4b4b; // Define a cor geral do texto
-
-  .logo {
-    margin-left: 10px;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin-right: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    li {
-      margin-right: 20px; // Distância entre cada item
-
-      div,
-      a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        color: #4d4b4b; // Cor do texto para itens que não são links
-        text-decoration: none; // Remove o sublinhado dos links
-
-        img {
-          width: 35px;
-          height: 35px;
-          border-radius: 50%;
-          object-fit: cover;
-
-        }
-
-        i {
-          margin: 9px;
-        }
-
-
-        &:hover {
-          transform: scale(1.05);
-          text-decoration: none; // Assegura que não apareça sublinhado ao passar o mouse
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: $small-screen) {
-  .top-menu {
-    flex-direction: column;
-    padding: 10px;
-
-    ul {
-      width: 100%; // Ajuste para que a UL ocupe a largura total
-      justify-content: center; // Centraliza os itens no modo responsivo
-      margin-top: 10px;
-
-      li a {
-        flex-direction: row;
-        align-items: center;
-        color: #4d4b4b; // Mantém a cor do texto nos links uniforme
-        text-decoration: none; // Remove o sublinhado dos links também em modo responsivo
-      }
-    }
-  }
-}
-
-
-@media screen and (max-width: $small-screen) {
-  .top-menu {
-    flex-direction: column;
-    padding: 10px;
-
-    ul {
-      width: 100%; // Ajuste para que a UL ocupe a largura total
-      justify-content: center; // Centraliza os itens no modo responsivo
-      margin-top: 10px;
-
-      li a {
-        flex-direction: row;
-        align-items: center;
-      }
-    }
-  }
-}
-
-
-.dashboard-container {
-  padding: 120px 20px 20px 20px; // Adjusted to add padding on all sides but more on top
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; // Consistent spacing between cards
-  justify-content: center;
-}
-
+/* Estilos para os cards */
 .card {
-  width: 150px; // ou ajuste conforme necessário para o seu design
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  background-color: #fff;
+  background-color: #f2f2f2;
   border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 160px; /* Largura máxima do card */
   display: flex;
   flex-direction: column;
-  padding-top: 30px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: bold;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .img-icon {
-    height: 130px;
-    object-fit: cover;
-  }
-
-  .card-title {
-    opacity: 0.8;
-    color: #333;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90px; // Altura fixa para garantir que todo texto esteja alinhado
-  }
-}
-
-
-.dashboard-item {
-  cursor: pointer;
-  display: block;
-}
-
-.movie-title {
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  display: block;
-  margin-top: 10px;
-  font-size: 30px;
-  color: #4d4b4b;
-  font-weight: bold;
-  text-transform: uppercase;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
+  margin-top: 100px;
+
+  
+  
 
   &:hover {
-    transform: translateY(-8px);
+    transform: scale(1.05); /* Efeito de escala ao passar o mouse */
   }
 
-  @media screen and (max-width: 768px) {
-    font-size: 20px;
-  }
-
-  @media screen and (max-width: 480px) {
-    font-size: 18px;
+  .dashboard-item {
+    cursor: pointer;
+    text-align: center; /* Centraliza o conteúdo dentro do card */
+    
+    .img-icon {
+      width: 100%; /* A imagem ocupa toda a largura do card */
+      height: auto;
+      border-radius: 10px; /* Bordas arredondadas para a imagem */
+      object-fit: cover; /* Ajuste da imagem para cobrir o contêiner */
+      margin-bottom: 10px; /* Espaço abaixo da imagem */
+    }
+  
+    .card-title {
+      font-weight: bold;
+      font-size: 15px !important;/* Tamanho do texto do título */
+      padding: 10px;
+      background-color: #ffffff; /* Fundo branco para o título */
+      margin-bottom: 0; /* Remover margem inferior padrão */
+      height: 60px; /* Altura fixa para o título */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 0 10px 10px; /* Bordas arredondadas apenas na parte inferior */
+    }
   }
 }
 
-.toast-center-center {
-  top: 50%;
-  right: 50%;
-  transform: translateX(50%) translateY(-50%);
-  position: fixed;
+/* Estilos para o layout responsivo */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Colunas responsivas */
+  gap: 20px; /* Espaço entre os cards */
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaço entre os cards */
 }

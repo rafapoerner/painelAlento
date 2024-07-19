@@ -1,0 +1,60 @@
+.card {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 160px; /* Largura máxima do card */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.3s;
+    margin-top: 100px;
+  
+    
+    
+  
+    &:hover {
+      transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+    }
+  
+    .dashboard-item {
+      cursor: pointer;
+      text-align: center; /* Centraliza o conteúdo dentro do card */
+      
+      .img-icon {
+        width: 100%; /* A imagem ocupa toda a largura do card */
+        height: auto;
+        border-radius: 10px; /* Bordas arredondadas para a imagem */
+        object-fit: cover; /* Ajuste da imagem para cobrir o contêiner */
+        margin-bottom: 10px; /* Espaço abaixo da imagem */
+      }
+    
+      .card-title {
+        font-weight: bold;
+        font-size: 15px !important;/* Tamanho do texto do título */
+        padding: 10px;
+        background-color: #ffffff; /* Fundo branco para o título */
+        margin-bottom: 0; /* Remover margem inferior padrão */
+        height: 60px; /* Altura fixa para o título */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 10px 10px; /* Bordas arredondadas apenas na parte inferior */
+      }
+    }
+  }
+
+  /* Estilos para o layout responsivo */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Colunas responsivas */
+    gap: 20px; /* Espaço entre os cards */
+  }
+  
+  .cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaço entre os cards */
+  }
