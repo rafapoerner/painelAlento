@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   powerBILinks: { url: string, description: string, imageName: string }[] = [];
   selectedCategory: string | null = null;
   filteredPowerBILinks: { url: string; description: string; imageName: string }[] = [];
+  showIframe: boolean = true;
 
   constructor(
     private router: Router,
@@ -105,6 +106,7 @@ export class DashboardComponent implements OnInit {
   // Método para filtrar os cards para cada item do menu
   selectCategory(category: string) {
     this.selectedCategory = category;
+    this.showIframe = false;
     console.log('Categoria selecionada:', this.selectedCategory);
     if (this.selectedCategory === 'B.I.') {
       this.filteredPowerBILinks = this.powerBILinks.filter(link => {
