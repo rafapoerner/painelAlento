@@ -98,8 +98,8 @@ export class DashboardComponent implements OnInit {
       return 'google_drive.png';
     } else if (imageName === 'Web Mail BTG') {
       return 'btgLojas.jpeg';
-    } else if (imageName === 'Resumo DayPart') {
-      return 'dayPart.png';
+    } else if (imageName === 'Campanha do Mês') {
+      return 'campanha_mes.png';
     } else {
       return 'default_icon.png';
     }
