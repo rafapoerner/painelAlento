@@ -100,6 +100,10 @@ export class DashboardComponent implements OnInit {
       return 'btgLojas.jpeg';
     } else if (imageName === 'Reunião de Resultados') {
       return 'reuniao_resultados.png';
+    } else if (imageName === 'Share Produtos BTG') {
+      return 'share_produtos_btg.png';
+    } else if (imageName === 'Acessos Alento') {
+      return 'acessos_alento.png';
     } else if (imageName === 'Campanha do Mês') {
       return 'campanha_mes.png';
     } else {
