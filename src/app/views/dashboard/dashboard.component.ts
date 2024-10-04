@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
       return 'newStore.png';
     } else if (imageName === 'Resumo Executivo') {
       return 'resumo_executivo.png';
-    } else if (imageName === 'Marketing') {
+    } else if (imageName === 'Jobs Marketing') {
       return 'marketing.png';
     } else if (imageName === 'Delivery') {
       return 'ifood.png';
