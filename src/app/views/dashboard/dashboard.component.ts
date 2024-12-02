@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit {
       return 'share_produtos_btg.png';
     } else if (imageName === 'Acessos Alento') {
       return 'acessos_alento.png';
-    } else if (imageName === 'Resumo DayPart') {
+    } else if (imageName === 'Campanhas do Mês') {
       return 'campanha_mes.png';
     } else {
       return 'default_icon.png';
