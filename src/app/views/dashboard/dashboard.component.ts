@@ -8,7 +8,6 @@ import { LinksBIComponent } from '../../components/links-bi/links-bi.component';
 import { WebMailComponent } from '../../components/web-mail/web-mail.component';
 import { DegustOneComponent } from '../../components/degust-one/degust-one.component';
 import { MenuboardPostsComponent } from '../marketing/menuboard-posts/menuboard-posts.component';
-import { VirtualStoreComponent } from '../marketing/virtual-store/virtual-store.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +16,7 @@ import { VirtualStoreComponent } from '../marketing/virtual-store/virtual-store.
   standalone: true,
   imports: [CommonModule, SideBarComponent, TopMenuComponent,
     LinksBIComponent, WebMailComponent, RouterOutlet,
-    DegustOneComponent, MenuboardPostsComponent, VirtualStoreComponent]
+    DegustOneComponent, MenuboardPostsComponent]
 })
 export class DashboardComponent implements OnInit {
   userName: string | null = null;
@@ -104,7 +103,7 @@ export class DashboardComponent implements OnInit {
       return 'share_produtos_btg.png';
     } else if (imageName === 'Acessos Alento') {
       return 'acessos_alento.png';
-    } else if (imageName === 'Campanha do Mês') {
+    } else if (imageName === 'Resumo DayPart') {
       return 'campanha_mes.png';
     } else {
       return 'default_icon.png';
